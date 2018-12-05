@@ -16,7 +16,7 @@ render(GLFWwindow* window, int sp, int vao)
 
     glUseProgram(sp);
     glBindVertexArray(vao);
-    glPointSize(15);
+    glPointSize(40);
     glDrawArrays(GL_POINTS, 0, 3);
 
     glfwSwapBuffers(window);
@@ -71,7 +71,7 @@ main(void)
     static float points[] = {
         0.3f, 0.3f,
         0.5f, 0.5f,
-        0.7f, 0.7f
+        -0.7f, 0.7f
     };
 
     unsigned int vao;

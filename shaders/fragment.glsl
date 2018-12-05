@@ -6,6 +6,10 @@ out vec4 color;
 void
 main()
 {
-    color = vec4(0.5f, 0.5f, 0.9f, 1.0f);
+    if (abs(length(gl_PointCoord * 2.0 - 1.0)) > 1.0) {
+        discard;
+    }
+
+    color = vec4(gl_PointCoord.x, gl_PointCoord.y, 0.5, 1.0);
 }
 
