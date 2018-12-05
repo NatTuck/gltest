@@ -16,5 +16,8 @@ src/%.o: src/%.c
 clean:
 	rm -f gltest src/*.o
 
+prereqs:
+	sudo apt install libglfw3-dev
+
 .PHONY: clean
 
