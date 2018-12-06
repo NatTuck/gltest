@@ -9,7 +9,7 @@
 #include <errno.h>
 #include <stdio.h>
 
-#include <GL/gl.h>
+#include <GLES3/gl31.h>
 
 char*
 read_file(const char* path)

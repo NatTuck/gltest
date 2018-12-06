@@ -16,8 +16,10 @@ render(GLFWwindow* window, int sp, int vao)
 
     glUseProgram(sp);
     glBindVertexArray(vao);
-    glPointSize(40);
     glDrawArrays(GL_POINTS, 0, 3);
+
+    // OpenGL 4.2
+    //glPointSize(40);
 
     glfwSwapBuffers(window);
 }
@@ -45,6 +47,18 @@ main(void)
     if (!glfwInit())
         return -1;
 
+    // Prep the window
+
+    // OpenGL ES
+    glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+
+    // Normal OpenGL:
+    //glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    //glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+    //glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+ 
     /* Create a windowed mode window and its OpenGL context */
     window = glfwCreateWindow(800, 600, "Hello World", NULL, NULL);
     if (!window)
@@ -57,12 +71,15 @@ main(void)
     glfwMakeContextCurrent(window);
 
     /* Set up the context */
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwSwapInterval(1);
     glfwSetFramebufferSizeCallback(window, on_framebuffer_resize);
     glViewport(0, 0, 800, 600);
+
+    //glEnable(0x8861);
+    //glEnable(GL_POINT_SPRITE);
+
+    printf("OpenGL version: %s\n", glGetString(GL_VERSION));
+    printf("GLSL version: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
 
     int sp = compile_shader_program(
         "shaders/vertex.glsl",
