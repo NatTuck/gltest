@@ -18,9 +18,6 @@ render(GLFWwindow* window, int sp, int vao)
     glBindVertexArray(vao);
     glDrawArrays(GL_POINTS, 0, 3);
 
-    // OpenGL 4.2
-    //glPointSize(40);
-
     glfwSwapBuffers(window);
 }
 
@@ -54,13 +51,8 @@ main(void)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 
-    // Normal OpenGL:
-    //glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    //glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
-    //glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
- 
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(800, 600, "Hello World", NULL, NULL);
+    window = glfwCreateWindow(800, 600, "gltest window", NULL, NULL);
     if (!window)
     {
         glfwTerminate();
@@ -71,12 +63,12 @@ main(void)
     glfwMakeContextCurrent(window);
 
     /* Set up the context */
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     glfwSwapInterval(1);
     glfwSetFramebufferSizeCallback(window, on_framebuffer_resize);
     glViewport(0, 0, 800, 600);
-
-    //glEnable(0x8861);
-    //glEnable(GL_POINT_SPRITE);
 
     printf("OpenGL version: %s\n", glGetString(GL_VERSION));
     printf("GLSL version: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
@@ -91,13 +83,13 @@ main(void)
         -0.7f, 0.7f
     };
 
-    unsigned int vao;
-    glGenVertexArrays(1, &vao);
-    glBindVertexArray(vao);
+    unsigned int vao[16];
+    glGenVertexArrays(16, vao);
+    glBindVertexArray(vao[0]);
 
-    unsigned int vbo;
-    glGenBuffers(1, &vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    unsigned int vbo[16];
+    glGenBuffers(1, vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
     glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), points, GL_DYNAMIC_DRAW);
 
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
@@ -107,7 +99,7 @@ main(void)
     while (!glfwWindowShouldClose(window))
     {
         /* Render here */
-        render(window, sp, vao);
+        render(window, sp, vao[0]);
 
         /* Poll for and process events */
         glfwPollEvents();
