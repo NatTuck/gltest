@@ -78,9 +78,9 @@ main(void)
         "shaders/fragment.glsl");
 
     static float points[] = {
-        0.3f, 0.3f,
-        0.5f, 0.5f,
-        -0.7f, 0.7f
+        0.3f, 0.3f,  1.0f, 0.0f, 0.0f, 1.0f,
+        0.5f, 0.5f,  0.0f, 1.0f, 0.0f, 1.0f,
+        -0.7f, 0.7f, 0.0f, 0.0f, 1.0f, 1.0f,
     };
 
     unsigned int vao[16];
@@ -90,10 +90,13 @@ main(void)
     unsigned int vbo[16];
     glGenBuffers(1, vbo);
     glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
-    glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), points, GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, 6 * 3 * sizeof(float), points, GL_DYNAMIC_DRAW);
 
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 6 * sizeof(float),
+                          (void*)(2 * sizeof(float)));
+    glEnableVertexAttribArray(1);
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
